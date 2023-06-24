@@ -1,8 +1,15 @@
-import mysql from 'mysql';
+const mongoose = require('mongoose');
 
-export const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "dk970329",
-    database: "social",
-})
+const connectDB = async () => {
+    try {
+        const connect = await mongoose.connect(process.env.MONGO_URL)
+        console.log(`connected to MongoDb: ${connect.connection.host}`)
+    } catch (error) {
+        console.log(error)
+        process.exit(1)
+    }
+
+   
+};
+
+module.exports  = connectDB

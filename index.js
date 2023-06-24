@@ -17,19 +17,20 @@ const reviewRoutes = require('./routes/review');
 const stripeRoutes = require('./routes/stripe');
 const productImagesRoutes = require('./routes/productImages');
 const bodyParser = require('body-parser')
+const connectDB = require('./connect')    
 
 
 dotenv.config();
-
 // Database Connection
-const uri = process.env.MONGO_URL;
-mongoose.set("strictQuery", true);
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, "Connection Error"));
-db.once('open', () => {
-    console.log("Connected to mongo db");
-})
+// const uri = process.env.MONGO_URL;
+// mongoose.set("strictQuery", true);
+// mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, "Connection Error"));
+// db.once('open', () => {
+//     console.log("Connected to mongo db");
+// })
+
 
 // // Middlewares
 app.use((req, res, next) => {
@@ -96,6 +97,17 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/checkout", stripeRoutes);
 // app.use("/api/relationships", relationshipRoutes);
 const PORT = process.env.PORT || 8800
-app.listen(PORT, () => {
-    console.log(`server running on port: ${PORT}`)
-}) 
+
+
+const startServer = async () => {
+    try {
+        await connectDB()
+        app.listen(PORT, () => {
+            console.log(`server running on port: ${PORT}`)
+        }) 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+startServer()
