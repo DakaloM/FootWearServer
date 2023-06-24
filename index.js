@@ -50,7 +50,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
-    destination:  (req, file, cb) =>  {
+    destination:  (req, file, cb) =>  { 
         cb(null, '../client/public/uploads')
     },
     filename: (req, file, cb) => {
@@ -95,7 +95,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/checkout", stripeRoutes);
 // app.use("/api/relationships", relationshipRoutes);
-
-app.listen(8800, () => {
-    console.log("Api Online")
+const PORT = process.env.PORT || 8800
+app.listen(PORT, () => {
+    console.log(`server running on port: ${PORT}`)
 }) 
