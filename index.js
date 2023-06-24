@@ -41,7 +41,11 @@ app.use(express.json()); // this line enable us to send json data to the backend
 //     origin: "http://localhost:3000",
 // }));
 
-app.use(cors())
+app.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://footwear-dk-app.onrender.com', 'https://footwearAdmin-dk-app.onrender.com' ]
+    })
+)
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
