@@ -7,11 +7,18 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 // CREATE PRODUCT
 router.post("/", verifyTokenAndAdmin, async (req, res) => {
     const newProduct = new Product(req.body);
-    try{
-       const savedProduct =  await newProduct.save();
-       res.status(200).json(savedProduct);
-    }catch(e){
-        res.status(500).json(e);
+    const existingProduct = await Product.findOne({title: req.body.title})
+    if (!existingProduct) {
+        try{
+            const savedProduct =  await newProduct.save();
+            res.status(200).json(savedProduct);
+         }catch(e){
+             res.status(500).json(e);
+         }
+    }
+    else {
+        res.status(404).json("Product name already exists");
+        
     }
 });
 
@@ -54,7 +61,7 @@ router.get("/", async (req, res) => {
     try{
         let products; 
          if(qNew){
-            products = await Product.find().sort({createdAt: -1}).limit(12)
+            products = await Product.find().sort({createdAt: -1})
          }else if(qCategory){
             products = await Product.find({
                 categories: {

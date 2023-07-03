@@ -3,6 +3,7 @@ const Cart = require("../models/Cart");
 const CryptoJS = require("crypto-js")
 const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 
+
 const router = require("express").Router();
 
 // CREATE ORDER
@@ -129,7 +130,7 @@ router.get("/sold", verifyTokenAndAdmin, async (req, res) => {
             {$unwind: "$products"},
             {$group: {_id : "$products._id", total: {$sum: "$products.quantity"} }},
             {$sort: {total: -1}}
-        ]).limit(4)
+        ]).limit(8)
         
         res.status(200).json(count);
     }catch(e){
