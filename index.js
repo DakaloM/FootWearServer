@@ -44,7 +44,8 @@ app.use(express.json()); // this line enable us to send json data to the backend
 
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'https://footwear-client-dk-app.onrender.com', 'https://footwear-admin-dk-app.onrender.com' ]
+        origin: ['http://localhost:3000', 'https://footwear-client-dk-app.onrender.com', 'https://footwear-admin-dk-app.onrender.com',
+         "https://footwear-dakalo.shop" ]
     })
 )
 app.use(cookieParser());
